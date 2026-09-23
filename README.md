@@ -42,7 +42,7 @@ src/
 
 ## Customization
 
-- **Contact details / brand info:** edit placeholders in `src/data/site.ts` (phone `+91 00000 00000`, email `contact@tksrlearning.com`, address).
+- **Contact details / brand info:** edit the `SITE` object in `src/data/site.ts` (currently phone `+919013191313`, email `info@tksrproductservices.com`, address `Gurugram, Haryana`).
 - **Courses:** add/edit entries in the `courses` array in `src/data/site.ts`.
 - **Colors / branding:** update design tokens (`--primary`, `--accent`, `--gradient`, …) in `src/styles/main.css`.
 
