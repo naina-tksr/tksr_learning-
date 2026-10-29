@@ -6,7 +6,12 @@
   "scripts": {
     "dev": "vite --port 5174 --host",
     "build": "vue-tsc && vite build",
-    "preview": "vite preview --port 5174"
+    "preview": "vite preview --port 5174",
+    "qa:cdp": "node scripts/qa.mjs"
+  },
+  "engines": {
+    "node": ">=20",
+    "npm": ">=9"
   },
   "dependencies": {
     "vue": "^3.4.0",

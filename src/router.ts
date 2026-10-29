@@ -12,9 +12,14 @@ const router = createRouter({
   routes: [
     { path: '/', name: 'home', component: () => import('./views/HomeView.vue') },
     { path: '/courses', name: 'courses', component: () => import('./views/CoursesView.vue') },
+    { path: '/courses/:id', name: 'course-detail', component: () => import('./views/CourseDetailView.vue') },
     { path: '/about-us', name: 'about', component: () => import('./views/AboutView.vue') },
     { path: '/contact-us', name: 'contact', component: () => import('./views/ContactView.vue') },
     { path: '/sign-in', name: 'signin', component: () => import('./views/SignInView.vue') },
+    { path: '/jobs', name: 'jobs', component: () => import('./views/JobsView.vue') },
+    { path: '/jobs/:id', name: 'job-detail', component: () => import('./views/JobDetailView.vue') },
+    { path: '/projects', name: 'projects', component: () => import('./views/ProjectsView.vue') },
+    { path: '/projects/:id', name: 'project-detail', component: () => import('./views/ProjectDetailView.vue') },
     { path: '/:pathMatch(.*)*', redirect: '/' },
   ],
 })

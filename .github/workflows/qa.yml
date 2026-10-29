@@ -1,0 +1,54 @@
+name: QA
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install from lockfile
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Start Vite dev server (port 5174)
+        run: |
+          npm run dev > vite-dev.log 2>&1 &
+          echo $! > vite-dev.pid
+
+      - name: Wait for dev server
+        run: |
+          for i in $(seq 1 60); do
+            if curl -sf http://localhost:5174/ > /dev/null; then
+              echo "Dev server is up"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "Dev server did not become ready on http://localhost:5174" >&2
+          cat vite-dev.log >&2 || true
+          exit 1
+
+      - name: Run CDP QA harness
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: npm run qa:cdp
+
+      - name: Stop dev server
+        if: always()
+        run: |
+          if [ -f vite-dev.pid ]; then kill "$(cat vite-dev.pid)" 2>/dev/null || true; fi

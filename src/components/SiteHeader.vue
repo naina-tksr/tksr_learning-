@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 import { CATEGORIES, SITE } from '../data/site'
 
@@ -17,8 +17,18 @@ watch(
   },
 )
 
+// Close the mobile menu / dropdowns with Escape (keyboard users).
+function onKeydown(e: KeyboardEvent) {
+  if (e.key !== 'Escape') return
+  mobileOpen.value = false
+  coursesOpen.value = false
+  resourcesOpen.value = false
+}
+onMounted(() => window.addEventListener('keydown', onKeydown))
+onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
+
 const resourceLinks = [
-  { label: 'Blogs', to: '/courses' },
+  { label: 'Interview Prep', to: '/courses?category=Interview%20Preparation%20Bootcamp' },
   { label: 'Course Info', to: '/courses' },
   { label: 'Become a Trainer', to: '/contact-us' },
   { label: 'Corporate Training', to: '/about-us' },
@@ -29,8 +39,14 @@ const resourceLinks = [
   <header class="site-header">
     <div class="topbar">
       <div class="container topbar-inner">
-        <span class="topbar-item">📞 {{ SITE.phone }}</span>
-        <span class="topbar-item">✉️ {{ SITE.email }}</span>
+        <a class="topbar-item" :href="SITE.phoneHref" aria-label="Call TKSR Career">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          {{ SITE.phone }}
+        </a>
+        <a class="topbar-item" :href="`mailto:${SITE.email}`" aria-label="Email TKSR Career">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+          {{ SITE.email }}
+        </a>
         <span class="topbar-links">
           <router-link to="/about-us">About Us</router-link>
           <router-link to="/contact-us">Need Help?</router-link>
@@ -42,7 +58,7 @@ const resourceLinks = [
       <div class="container nav-inner">
         <router-link to="/" class="brand">
           <span class="brand-mark">TK</span>
-          <span class="brand-text">TKSR<em>Learning</em></span>
+          <span class="brand-text">TKSR<em>Career</em></span>
         </router-link>
 
         <nav class="nav-links" role="navigation">
@@ -51,8 +67,8 @@ const resourceLinks = [
             @mouseenter="coursesOpen = true"
             @mouseleave="coursesOpen = false"
           >
-            <button class="nav-link" @click="coursesOpen = !coursesOpen">
-              All Courses <span class="caret">▾</span>
+            <button class="nav-link" :aria-expanded="coursesOpen" @click="coursesOpen = !coursesOpen">
+              All Courses <span class="caret" aria-hidden="true">▾</span>
             </button>
             <transition name="pop">
               <div v-if="coursesOpen" class="dropdown-panel">
@@ -73,8 +89,8 @@ const resourceLinks = [
             @mouseenter="resourcesOpen = true"
             @mouseleave="resourcesOpen = false"
           >
-            <button class="nav-link" @click="resourcesOpen = !resourcesOpen">
-              Resources <span class="caret">▾</span>
+            <button class="nav-link" :aria-expanded="resourcesOpen" @click="resourcesOpen = !resourcesOpen">
+              Resources <span class="caret" aria-hidden="true">▾</span>
             </button>
             <transition name="pop">
               <div v-if="resourcesOpen" class="dropdown-panel">
@@ -90,13 +106,15 @@ const resourceLinks = [
             </transition>
           </div>
 
+          <router-link to="/jobs" class="nav-link">Jobs</router-link>
+          <router-link to="/projects" class="nav-link">Projects</router-link>
           <router-link to="/courses" class="nav-link">Courses</router-link>
           <router-link to="/contact-us" class="nav-link">Contact Us</router-link>
         </nav>
 
         <div class="nav-cta">
           <a class="btn btn-accent adviser-btn" :href="SITE.phoneHref">
-            💬 Talk to Adviser
+            💬 Talk to Advisor
           </a>
           <router-link to="/sign-in" class="signin-link">Sign In</router-link>
           <button
@@ -104,6 +122,7 @@ const resourceLinks = [
             :class="{ open: mobileOpen }"
             @click="mobileOpen = !mobileOpen"
             aria-label="Toggle menu"
+            :aria-expanded="mobileOpen"
           >
             <span></span><span></span><span></span>
           </button>
@@ -122,6 +141,8 @@ const resourceLinks = [
             {{ c }}
           </router-link>
           <router-link to="/about-us" class="m-link">About Us</router-link>
+          <router-link to="/jobs" class="m-link">Jobs</router-link>
+          <router-link to="/projects" class="m-link">Projects</router-link>
           <router-link to="/contact-us" class="m-link">Contact Us</router-link>
           <router-link to="/sign-in" class="btn btn-primary m-cta">Sign In</router-link>
         </div>
@@ -140,21 +161,45 @@ const resourceLinks = [
 .topbar {
   background: var(--ink);
   color: #c7d2fe;
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 500;
 }
 
 .topbar-inner {
   display: flex;
   align-items: center;
-  gap: 24px;
-  min-height: 36px;
+  gap: 26px;
+  min-height: 32px;
+  white-space: nowrap;
+}
+
+.topbar-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: color 0.2s;
+}
+
+.topbar-item svg {
+  width: 13px;
+  height: 13px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+
+.topbar-item:hover {
+  color: #fff;
 }
 
 .topbar-links {
   margin-left: auto;
   display: flex;
-  gap: 16px;
+  gap: 18px;
 }
 
 .topbar-links a {
@@ -171,20 +216,25 @@ const resourceLinks = [
   }
   .topbar-inner {
     justify-content: flex-end;
+    min-height: 30px;
+  }
+  .topbar-links {
+    gap: 14px;
   }
 }
 
 .nav-wrap {
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
+  box-shadow: 0 2px 18px rgba(13, 31, 78, 0.07);
 }
 
 .nav-inner {
   display: flex;
   align-items: center;
-  gap: 28px;
-  min-height: 74px;
+  gap: 24px;
+  min-height: 60px;
 }
 
 .brand {
@@ -194,13 +244,13 @@ const resourceLinks = [
 }
 
 .brand-mark {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
   background: var(--gradient);
   color: #fff;
   font-weight: 900;
-  font-size: 17px;
+  font-size: 15px;
   display: grid;
   place-items: center;
   letter-spacing: -0.02em;
@@ -209,7 +259,7 @@ const resourceLinks = [
 
 .brand-text {
   font-weight: 900;
-  font-size: 21px;
+  font-size: 19px;
   letter-spacing: -0.02em;
   color: var(--ink);
 }
@@ -223,17 +273,17 @@ const resourceLinks = [
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 4px;
-  margin-left: 12px;
+  gap: 2px;
+  margin-left: 8px;
 }
 
 .nav-link {
   background: none;
   border: none;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 14px;
   color: var(--ink-2);
-  padding: 10px 14px;
+  padding: 8px 12px;
   border-radius: 8px;
   display: inline-flex;
   align-items: center;
@@ -302,19 +352,20 @@ const resourceLinks = [
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
 }
 
 .adviser-btn {
-  padding: 11px 18px;
-  font-size: 14px;
+  padding: 9px 20px;
+  font-size: 13.5px;
+  border-radius: 999px;
 }
 
 .signin-link {
   font-weight: 700;
-  font-size: 15px;
+  font-size: 14px;
   color: var(--ink);
-  padding: 10px 4px;
+  padding: 8px 4px;
   border-bottom: 2px solid transparent;
 }
 
@@ -380,7 +431,7 @@ const resourceLinks = [
   width: 100%;
 }
 
-@media (max-width: 980px) {
+@media (max-width: 1089px) {
   .nav-links {
     display: none;
   }
@@ -410,7 +461,7 @@ const resourceLinks = [
   }
 
   .brand-text {
-    font-size: 18px;
+    font-size: 17px;
   }
 }
 </style>

@@ -6,8 +6,8 @@ const sent = ref(false)
 
 const contactCards = [
   { icon: '📞', title: 'Call Us', line1: SITE.phone, line2: 'Mon–Sat, 9 AM – 7 PM IST' },
-  { icon: '✉️', title: 'Email Us', line1: SITE.email, line2: 'Replies within 4 business hours' },
-  { icon: '📍', title: 'Visit Us', line1: SITE.address, line2: 'Map directions available below' },
+  { icon: '✉️', title: 'Email Us', line1: SITE.email, line2: 'For queries and career guidance' },
+  { icon: '📍', title: 'Visit Us', line1: SITE.address, line2: 'Office visits by appointment' },
   { icon: '💬', title: 'WhatsApp', line1: SITE.phone, line2: 'Chat with our career advisers' },
 ]
 </script>
@@ -41,7 +41,11 @@ const contactCards = [
         <div class="contact-grid">
           <div class="contact-form card">
             <h3>Send us a message</h3>
-            <p class="cf-sub">Fill in the form and our team will get back to you within one business day.</p>
+            <p class="cf-sub">
+              This form is a <strong>demo</strong> — messages are recorded locally
+              and not sent anywhere. For a real response, use the phone or email
+              above.
+            </p>
             <form @submit.prevent="sent = true">
               <div class="row2">
                 <div class="field">
@@ -74,7 +78,10 @@ const contactCards = [
               <button type="submit" class="btn btn-primary" style="width: 100%">
                 Send Message →
               </button>
-              <p v-if="sent" class="success">✅ Message sent! Our team will reach out shortly.</p>
+              <p v-if="sent" class="success">
+                ✅ Thanks! This demo form records your message locally. For a real
+                response, contact TKSR at {{ SITE.phone }} or {{ SITE.email }}.
+              </p>
             </form>
           </div>
 
@@ -82,21 +89,21 @@ const contactCards = [
             <div class="side-info">
               <h3>Become an Instructor</h3>
               <p>
-                Industry experts with 5+ years of hands-on experience — join a faculty
-                of 1,000+ and mentor the next generation of professionals.
+                Practitioners with hands-on technology and industry experience —
+                interested in guiding learners? Write to us.
               </p>
-              <a class="btn btn-outline" href="mailto:trainers@tksrlearning.com">
-                trainers@tksrlearning.com
+              <a class="btn btn-outline" href="mailto:info@tksrproductservices.com">
+                info@tksrproductservices.com
               </a>
             </div>
             <div class="side-info">
               <h3>Become a Training Partner</h3>
               <p>
-                Colleges, bootcamps and institutions — partner with us to deliver
-                certified, industry-aligned programs to your learners.
+                Colleges, bootcamps and institutions — talk to us about delivering
+                industry-aligned, career-focused programs to your learners.
               </p>
-              <a class="btn btn-outline" href="mailto:partners@tksrlearning.com">
-                partners@tksrlearning.com
+              <a class="btn btn-outline" href="mailto:info@tksrproductservices.com">
+                info@tksrproductservices.com
               </a>
             </div>
             <div class="map-card">
@@ -104,7 +111,7 @@ const contactCards = [
               <p>{{ SITE.address }}</p>
               <div class="map-placeholder">
                 <span>🗺️</span>
-                <p>TKSR Learning, HSR Layout, Bengaluru</p>
+                <p>TKSR Career, Gurugram, Haryana</p>
               </div>
             </div>
           </div>
@@ -250,7 +257,7 @@ const contactCards = [
   }
 
   .contact-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -258,6 +265,13 @@ const contactCards = [
   .contact-cards,
   .row2 {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 320px) {
+  .side-info .btn.btn-outline {
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 }
 </style>

@@ -1,15 +1,52 @@
 <script setup lang="ts">
-const milestones = [
-  { year: '2016', text: 'TKSR Learning founded in Bengaluru with a single DevOps batch of 12 learners.' },
-  { year: '2019', text: 'Crossed 10,000 learners and launched our first enterprise training programs.' },
-  { year: '2022', text: 'Built a global expert mentor network of 1,000+ industry architects.' },
-  { year: '2026', text: 'Reached 100K+ active learners, 400+ hiring partners and 25K+ professionals upskilled.' },
+/**
+ * About TKSR Career — trust through transparency.
+ *
+ * Company history, learner counts, partner networks and outcome statistics are
+ * NOT presented here because none are verified. This page describes TKSR's
+ * learning philosophy and approach instead, and clearly separates what is
+ * sample/demo content from what is real contact/positioning information.
+ */
+
+const approachSteps = [
+  {
+    step: '01',
+    title: 'Learn Industry-Relevant Skills',
+    text: 'Programs are built around modern technologies and the skills that career roles actually require today (as shown across the course content on this site).',
+  },
+  {
+    step: '02',
+    title: 'Build Real-World Projects',
+    text: 'Move from theory to implementation with projects that follow Concept → Problem → Build → Deploy → Portfolio.',
+  },
+  {
+    step: '03',
+    title: 'Get Expert-Led Guidance',
+    text: 'Learn with practitioner-style guidance based on hands-on industry experience. The profiles on this site are sample/demo demonstrations.',
+  },
+  {
+    step: '04',
+    title: 'Build Portfolio Evidence',
+    text: 'Turn completed work into portfolio pieces you can present — concrete evidence of what you can do.',
+  },
+  {
+    step: '05',
+    title: 'Explore Career Opportunities',
+    text: 'Understand what roles ask for and which skills to develop, using the sample opportunity data on this site.',
+  },
 ]
 
 const pillars = [
-  { icon: '🎯', title: 'Our Mission', text: 'Bridge the gap between classroom learning and board-room execution with project-led, career-focused education.' },
-  { icon: '🔭', title: 'Our Vision', text: 'A world where every professional has access to expert mentorship and skills that are genuinely job-ready.' },
-  { icon: '💎', title: 'Our Values', text: 'Learner first, honesty in outcomes, hands-on everything, and long-term career partnership — not short courses.' },
+  { icon: '🎯', title: 'Our Mission', text: 'Help learners move closer to industry through relevant skills, practical projects, expert guidance and career opportunity awareness.' },
+  { icon: '🔭', title: 'Our Vision', text: 'A learning experience where every professional can see the skills that matter, build evidence of them, and understand where they lead.' },
+  { icon: '💎', title: 'Our Values', text: 'Learner first, honesty in outcomes, hands-on everything, and long-term career partnership — not short courses or inflated promises.' },
+]
+
+const highlights = [
+  { strong: 'Skills First', span: 'Industry-relevant learning' },
+  { strong: 'Projects', span: 'Practical implementation' },
+  { strong: 'Experts', span: 'Practitioner-led guidance' },
+  { strong: 'Careers', span: 'Opportunity awareness' },
 ]
 </script>
 
@@ -20,10 +57,11 @@ const pillars = [
         <div class="crumbs">
           <router-link to="/">Home</router-link> <span>/</span> About Us
         </div>
-        <h1>About TKSR Learning</h1>
+        <h1>About TKSR Career</h1>
         <p>
-          We don't just teach skills; we build careers. A learning ecosystem where
-          expert mentors, live enterprise projects and placement support work together.
+          TKSR helps learners move closer to industry through skills, projects,
+          experts and career opportunities — communicated honestly, without
+          fabricated outcomes.
         </p>
       </div>
     </section>
@@ -31,34 +69,36 @@ const pillars = [
     <section class="section">
       <div class="container about-intro">
         <div class="ai-copy">
-          <span class="eyebrow">📖 Our Story</span>
-          <h2>From a 12-learner batch to a 100K+ learner community</h2>
+          <span class="eyebrow">📖 Our Approach</span>
+          <h2>Learning Designed to Move You Closer to Industry</h2>
           <p>
-            TKSR Learning started in 2024 with one belief: professionals deserve
-            training that mirrors real work, taught by people who actually do the work.
-            Today we run live, project-led programs in DevOps, Agile & Scrum, Software
-            Testing and Project Management — with mentorship from Fortune 500 experts.
+            TKSR programs are built on one belief: learning should mirror real
+            work. That means modern, industry-relevant skills; practical projects
+            you can complete and show; and guidance shaped by people who work with
+            these technologies day to day.
           </p>
           <p>
-            Our outcomes speak for themselves — 60% average hikes, 86 LPA highest
-            salary, 10,000+ successful career transitions and a 400+ hiring network
-            that opens doors long after graduation.
+            We also believe in honesty. Jobs, projects, expert profiles and career
+            mapping on this site are clearly labeled sample/demo content, and we do
+            not publish invented learner counts, success rates, salaries or partner
+            claims.
           </p>
           <div class="about-stats">
-            <div><strong>10+</strong><span>Years of Experience</span></div>
-            <div><strong>100K+</strong><span>Active Learners</span></div>
-            <div><strong>1,000+</strong><span>Expert Mentors</span></div>
-            <div><strong>400+</strong><span>Hiring Partners</span></div>
+            <div v-for="h in highlights" :key="h.strong">
+              <strong>{{ h.strong }}</strong>
+              <span>{{ h.span }}</span>
+            </div>
           </div>
         </div>
         <div class="about-card">
-          <span class="big-emoji">🚀</span>
+          <span class="big-emoji" aria-hidden="true">🚀</span>
           <h3>Our Promise</h3>
           <p>
-            Every TKSR program ends with a skill you can demo, a project you can show,
-            a certification the industry respects — and a partner network that hires.
+            Every TKSR program is designed to leave you with a skill you can apply,
+            a project you can show, and a clearer picture of the roles your skills
+            align with. We do not claim guaranteed jobs, placements or salaries.
           </p>
-          <router-link to="/courses" class="btn btn-primary">Explore Programs</router-link>
+          <router-link to="/courses" class="btn btn-buy">Explore Programs</router-link>
         </div>
       </div>
     </section>
@@ -67,7 +107,7 @@ const pillars = [
       <div class="container">
         <div class="pillar-grid">
           <div v-for="p in pillars" :key="p.title" class="pillar card">
-            <span class="p-icon">{{ p.icon }}</span>
+            <span class="p-icon" aria-hidden="true">{{ p.icon }}</span>
             <h3>{{ p.title }}</h3>
             <p>{{ p.text }}</p>
           </div>
@@ -78,14 +118,24 @@ const pillars = [
     <section class="section">
       <div class="container">
         <div class="section-head section-head--center">
-          <span class="eyebrow">🗺️ Milestones</span>
-          <h2>The Journey So Far</h2>
+          <span class="eyebrow">🧭 The TKSR Way</span>
+          <h2>From Skills to Career Opportunities</h2>
+          <p>
+            The learning journey TKSR programs are designed around — a process, not
+            a promise of placement or employment.
+          </p>
         </div>
         <div class="timeline">
-          <div v-for="(m, i) in milestones" :key="m.year" class="tl-item" :class="{ right: i % 2 === 1 }">
+          <div
+            v-for="(m, i) in approachSteps"
+            :key="m.step"
+            class="tl-item"
+            :class="{ right: i % 2 === 1 }"
+          >
             <div class="tl-dot"></div>
             <div class="tl-card">
-              <strong>{{ m.year }}</strong>
+              <strong>Step {{ m.step }}</strong>
+              <p class="tl-title">{{ m.title }}</p>
               <p>{{ m.text }}</p>
             </div>
           </div>
@@ -95,17 +145,16 @@ const pillars = [
 
     <section class="section section--soft">
       <div class="container mentors-cta">
-        <h2>Learn from mentors who build for the world’s biggest companies</h2>
+        <h2>Guidance from practitioners who understand the work</h2>
         <p>
-          Our 1,000+ faculty members are practicing architects, leads and consultants
-          from Google, IBM, Infosys, Deloitte, TCS and startups across 20+ domains.
+          TKSR programs are shaped by people with hands-on technology and industry
+          experience. The practitioner profiles currently shown on this website are
+          sample/demo demonstrations — verified faculty details will be published
+          when available.
         </p>
-        <div class="mentor-logos">
-          <span v-for="m in ['Google', 'IBM', 'Infosys', 'Deloitte', 'TCS', 'Amazon', 'Capgemini', 'Accenture']" :key="m">
-            {{ m }}
-          </span>
-        </div>
-        <router-link to="/contact-us" class="btn btn-accent">Become a Trainer →</router-link>
+        <router-link to="/contact-us" class="btn btn-accent">
+          Talk to a Career Expert →
+        </router-link>
       </div>
     </section>
   </div>
@@ -145,7 +194,7 @@ const pillars = [
 
 .about-stats strong {
   display: block;
-  font-size: 1.4rem;
+  font-size: 1.15rem;
   background: var(--gradient);
   -webkit-background-clip: text;
   background-clip: text;
@@ -182,6 +231,7 @@ const pillars = [
   color: rgba(255, 255, 255, 0.88);
   margin-bottom: 22px;
   font-size: 14.5px;
+  line-height: 1.6;
 }
 
 .pillar-grid {
@@ -265,7 +315,15 @@ const pillars = [
 
 .tl-card strong {
   color: var(--primary-600);
-  font-size: 1.05rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.tl-card .tl-title {
+  margin-top: 4px;
+  font-weight: 800;
+  color: var(--ink);
 }
 
 .tl-card p {
@@ -283,25 +341,7 @@ const pillars = [
 .mentors-cta p {
   color: var(--muted);
   margin: 14px 0 22px;
-}
-
-.mentor-logos {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-  margin-bottom: 26px;
-}
-
-.mentor-logos span {
-  background: #fff;
-  border: 1px solid var(--border);
-  padding: 8px 16px;
-  border-radius: 999px;
-  font-weight: 700;
-  color: var(--ink-2);
-  box-shadow: var(--shadow);
-  font-size: 13.5px;
+  line-height: 1.7;
 }
 
 @media (max-width: 1024px) {

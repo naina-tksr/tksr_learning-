@@ -1,84 +1,61 @@
 <script setup lang="ts">
+/**
+ * "Industry & Career Ecosystem" logo row — Phase 7 (reference-first).
+ *
+ * A calm STATIC wordmark row, not an animated marquee: the previous
+ * two-track infinite-scroll chip animation is removed per the Phase 7 brief
+ * (calm/premium, no autoplay transforms, no overflow/masking risk, no hover
+ * movement). The underlying data — hiringPartners in src/data/site.ts — is
+ * reused exactly as-is and is documented there as demonstration content, so
+ * this strip stays presentation-only and never implies a verified partner or
+ * employer network. Plain subdued wordmarks replace the old bordered chips for
+ * a consistent, uncompetitive visual weight inside the white ecosystem band.
+ *
+ * A11y: a semantic list of text names (no fake empty-alt "logo" images). The
+ * section heading + demo note above/below supply the context.
+ */
 import { hiringPartners } from '../data/site'
 
-const row = hiringPartners
-const row2 = [...hiringPartners].reverse()
+const partners = hiringPartners
 </script>
 
 <template>
-  <div class="marquee-wrap">
-    <div class="marquee-row">
-      <div class="marquee-track track-a">
-        <span
-          v-for="(p, i) in [...row, ...row]"
-          :key="'a' + i"
-          class="logo-item"
-          :style="{ color: p.color }"
-        >
-          {{ p.name }}
-        </span>
-      </div>
-    </div>
-    <div class="marquee-row marquee-row--reverse">
-      <div class="marquee-track track-b">
-        <span
-          v-for="(p, i) in [...row2, ...row2]"
-          :key="'b' + i"
-          class="logo-item"
-          :style="{ color: p.color }"
-        >
-          {{ p.name }}
-        </span>
-      </div>
-    </div>
-  </div>
+  <ul class="eco-logo-row" role="list">
+    <li v-for="p in partners" :key="p.name" class="eco-logo">{{ p.name }}</li>
+  </ul>
 </template>
 
 <style scoped>
-.marquee-wrap {
-  overflow: hidden;
+.eco-logo-row {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
-  flex-direction: column;
-  gap: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px 30px;
 }
 
-.marquee-row {
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-}
-
-.marquee-track {
-  display: flex;
-  gap: 22px;
-  width: max-content;
-  animation: scroll 36s linear infinite;
-}
-
-.marquee-row--reverse .marquee-track {
-  animation-duration: 42s;
-}
-
-.logo-item {
-  font-size: 1.5rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  padding: 14px 26px;
-  border: 1.5px solid var(--border);
-  border-radius: 12px;
-  background: #fff;
+/* Subdued, uniformly weighted wordmark — no brand-color noise, no chips,
+   no shadows, no animation. text-overflow safe via white-space. */
+.eco-logo {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+  color: var(--muted);
   white-space: nowrap;
-  filter: grayscale(0.15);
-  transition: box-shadow 0.2s;
 }
 
-.logo-item:hover {
-  box-shadow: var(--shadow);
-}
+/* Mobile: slightly smaller wordmarks, tighter wrap rhythm. */
+@media (max-width: 640px) {
+  .eco-logo-row {
+    gap: 8px 22px;
+  }
 
-@keyframes scroll {
-  to {
-    transform: translateX(-50%);
+  .eco-logo {
+    font-size: 14px;
   }
 }
 </style>

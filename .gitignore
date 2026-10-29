@@ -4,6 +4,11 @@ node_modules/
 # Build output
 dist/
 
+# Environment files (no .env files currently exist — keep secrets out of git)
+.env
+.env.*
+!.env.example
+
 # Generated screenshots
 shots/
 

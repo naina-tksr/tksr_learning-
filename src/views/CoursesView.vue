@@ -84,6 +84,11 @@ const filterCount = (cat: string) =>
         <div class="course-grid">
           <CourseCard v-for="c in filtered" :key="c.id" :course="c" />
         </div>
+
+        <p class="demo-note">
+          Course ratings and learner counts in the course data are
+          <strong>sample/demo figures</strong> — they are not verified statistics.
+        </p>
       </div>
     </section>
 
@@ -91,9 +96,9 @@ const filterCount = (cat: string) =>
       <div class="container cta-banner">
         <div>
           <h2>Not sure which course fits your career goal?</h2>
-          <p>Talk to a TKSR career adviser for a free 1-on-1 guidance session.</p>
+          <p>Talk to a TKSR career adviser to explore which skills matter for the roles you're targeting.</p>
         </div>
-        <router-link to="/contact-us" class="btn btn-accent">Book Free Guidance →</router-link>
+        <router-link to="/contact-us" class="btn btn-accent">Talk to a Career Expert →</router-link>
       </div>
     </section>
   </div>
@@ -178,6 +183,18 @@ const filterCount = (cat: string) =>
   color: var(--muted);
   padding: 40px 0;
   font-size: 1.05rem;
+}
+
+.demo-note {
+  margin-top: 28px;
+  font-size: 13px;
+  color: #9a3412;
+  background: #fff7ed;
+  border: 1px solid #fdba74;
+  border-radius: 10px;
+  padding: 12px 14px;
+  line-height: 1.6;
+  text-align: center;
 }
 
 .cta-banner {

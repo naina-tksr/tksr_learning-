@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { SITE } from '../data/site'
 
 const email = ref('')
 const password = ref('')
@@ -12,13 +13,14 @@ const submitted = ref(false)
       <div class="signin-card">
         <div class="brand">
           <span class="brand-mark">TK</span>
-          <span class="brand-text">TKSR<em>Learning</em></span>
+          <span class="brand-text">TKSR<em>Career</em></span>
         </div>
         <h1>Welcome back 👋</h1>
         <p class="sub">
           Sign in to continue your learning journey, track progress and access
           your live classroom sessions.
         </p>
+        <p class="demo-tag">Demo experience — real sign-in is not enabled yet</p>
 
         <form @submit.prevent="submitted = true">
           <div class="field">
@@ -28,26 +30,31 @@ const submitted = ref(false)
           <div class="field">
             <div class="label-row">
               <label>Password</label>
-              <a href="#" class="forgot">Forgot password?</a>
+              <router-link to="/contact-us" class="forgot">Forgot password? Contact support</router-link>
             </div>
             <input v-model="password" type="password" placeholder="••••••••" required />
           </div>
           <button type="submit" class="btn btn-primary" style="width: 100%">Sign In</button>
           <p v-if="submitted" class="note">
-            ⚠️ Demo site — signing in is not enabled yet. Contact {{ 'contact@tksrlearning.com' }} to get portal access.
+            ⚠️ Demo site — signing in is not enabled yet. Contact {{ SITE.email }} to get
+            portal access.
           </p>
         </form>
 
         <div class="divider"><span>or</span></div>
 
         <div class="alt-row">
-          <button class="btn btn-outline alt-btn">🔑 Access with Google</button>
-          <button class="btn btn-outline alt-btn">💼 Access with LinkedIn</button>
+          <button class="btn btn-outline alt-btn" type="button" @click="submitted = true">
+            🔑 Access with Google
+          </button>
+          <button class="btn btn-outline alt-btn" type="button" @click="submitted = true">
+            💼 Access with LinkedIn
+          </button>
         </div>
 
         <p class="signup-link">
-          New to TKSR Learning?
-          <a href="#">Create a free account</a>
+          New to TKSR Career?
+          <router-link to="/contact-us">Contact us to request access</router-link>
         </p>
       </div>
     </section>
@@ -142,6 +149,18 @@ h1 {
   border: 1px dashed var(--border);
   padding: 10px 12px;
   border-radius: 8px;
+}
+
+.demo-tag {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #9a3412;
+  background: #fff7ed;
+  border: 1px solid #fdba74;
+  border-radius: 999px;
+  padding: 7px 14px;
+  display: inline-block;
+  margin-bottom: 18px;
 }
 
 .divider {
